@@ -1,0 +1,14 @@
+<script type="text/javascript">
+       $.ajax({type: 'GET', 
+        data: 'base=rbep&expressao=$&lim_inicio=1&TDOC=XX&DP=&formato=andrd&limites=10', 
+        url: 'http://rbep.cm-porto.pt/rbep/cgi/www.exe/[in=andrd.in]',
+  		success: function(response){
+
+    		$('.submenu').html(response);
+  		}
+		});   
+		
+		function loadURL(url){ 
+        navigator.app.loadUrl(url, { openExternal:true }); 
+        }     
+</script>

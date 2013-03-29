@@ -1,0 +1,45 @@
+<!-- Copyright (c) 2012 Mobile Developer Solutions -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>Sibel</title>
+
+ 	<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="index.css" /> 
+
+    <script src="jquery.mobile/jquery-1.7.2.min"></script>
+	<script src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="index.js"></script>
+  
+	<!-- CDN Respositories: For production, replace lines above with these uncommented minified versions -->
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />-->
+	<!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>-->
+	<!-- <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>-->
+	</head>
+  
+  <body>
+  
+	<div data-role="page" id="prefs" class="type-interior" data-theme="c">
+	<div data-role="header" data-theme="b" >
+		<div id="divlogo" >    
+         	<a class="ui-btn-left" href="index.html" data-icon="back" data-role="button" data-iconpos="left">Retroceder</a>
+        	<a class="ui-btn-right" href="about.html" data-rel="dialog" data-role="button" data-icon="info" data-iconpos="notext"> </a>       
+        </div>	
+	</div>	
+	<div data-role="content">
+         
+	</div>
+	<div id="myDialog" data-role="dialog">
+    <div id="myMessage"></div>
+    <input id="button1" type="button" value="Button 1" data-theme="b" onclick="someJS1();" />
+    <input id="button2" type="button" value="Button 2" data-theme="c" onclick="someJS2();" />
+   </div>
+	<div data-role="footer" data-position="fixed" class="footer-docs" data-theme="a">
+		<p>&copy; 2013 PCCRBE</p>
+	</div>	
+   </div>
+	
+</body>  	
+</html>

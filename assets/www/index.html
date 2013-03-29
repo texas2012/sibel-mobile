@@ -1,0 +1,660 @@
+<!-- Copyright (c) 2012 Mobile Developer Solutions -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>Sibel</title>
+
+ 	<link rel="stylesheet" type="text/css" href="jquery.mobile/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/index.css" /> 
+
+    <script type="text/javascript" src="jquery.mobile/jquery-1.7.2.min"></script>
+	<script type="text/javascript" src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/cordova-2.5.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+	<script type="text/javascript" src="js/jquery.raty.min.js"></script>
+	
+  
+	<!-- CDN Respositories: For production, replace lines above with these uncommented minified versions -->
+	<!-- <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />-->
+	<!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>-->
+	<!-- <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>-->
+
+  </head>
+  <body>
+    
+        
+	<div data-role="page" id="page-home" data-theme="c">
+	<div data-role="header" class="headerGrid ui-grid-b" id="mainHeader" data-theme="a" data-position="fixed">
+        <div class="ui-block-a ui-bar-a" >
+           <div align="left" style="padding-left:5px;padding-top:3px;height:32px;">
+                <a href="about.html" class="ui-btn-left" rel="external" data-mini="true" data-role="button" data-icon="info" data-theme="a" data-iconpos="notext"></a>
+            </div> 
+        </div>
+        <div class="ui-block-b ui-bar-a" data-theme="b">
+            <div align="center" style="text-align:center;">
+            <div style="padding-top:10px;height:32px;" data-theme="b">
+                <article data-role="header">SIBEL - Pesquisa</article>
+            </div>
+            </div>
+        </div>
+        <div class="ui-block-c ui-bar-a"> 
+            <div align="right" style="padding-top:7px;height:32px;">             
+                <a class="ui-btn-right" id="prefsSearch" href="javascript:showPrefs(0)" data-icon="gear" data-role="button"  data-iconpos="notext"></a>     
+            </div>
+        </div>
+    
+     </div>     
+	<!-- <div data-role="header" data-theme="a" id="mainHeader" data-position="fixed">
+		 <div id="divlogo" >
+            <h3>SIBEL</h3>
+            <a class="ui-btn-right" id="prefsSearch" href="javascript:showPrefs(0)" data-icon="gear" data-role="button"  data-iconpos="notext"></a>       
+        </div>
+		
+	</div> -->
+ 	
+ 	
+    <div data-role="content" id="divSearch">
+        <div data-role="fieldcontain"> 
+          <form action="javascript:getBooks()">
+            <fieldset class="ui-grid-a">
+             <div class="ui-block-a" style="width:80%;margin-top:2px">
+                <input id="searchinput" type="search"  data-inline="true" placeholder="Introduza o termo"></div>
+             <div class="ui-block-b" style="width:20%">
+               <input type="submit" data-inline="true" value="OK" data-mini="true"></div>       
+            </fieldset>
+          </form>
+          <br />
+        </div>
+          
+      
+    
+      <div id="options">
+        
+           <fieldset data-role="controlgroup" data-type="horizontal"> 
+           		<legend>Opções:</legend>
+                <input id="op1" name="op"  type="radio" value="PAL" checked="checked"/>
+                <label for="op1">Palavra</label>
+                <input id="op2" name="op" type="radio" value="TI"/>
+                <label for="op2">Título</label>
+                <input id="op3" name="op" type="radio" value="AU"/>
+                <label for="op3">&nbsp;Autor</label>
+                <input id="op4" name="op" type="radio" value="AS"/>      
+                <label for="op4">Assunto</label>           
+                        
+          </fieldset>
+         
+         <p></p>
+         <fieldset data-role="controlgroup" data-theme="a">
+	
+		    <label for="tipodoc">Tipo de documento:</label>
+		      <select name="tipodoc" tabindex="-1" id="tipodoc" data-theme="b" data-native-menu="false" data-overlay-theme="d">
+				<option value="XX">Todos</option>
+				<option value="AM">Livros</option>
+				<option value="BM">Manuscritos</option>
+				<option value="GM">Vídeo</option>
+				<option value="JM">Áudio</option>
+				<option value="MM">Multimédia</option>
+				<option value="EM">Material cartográfico</option>
+				<option value="LM">Produtos de computador</option>
+				<option value="CM">Partituras</option>
+				<option value="AA">Analíticos</option>
+				<option value="AS">Publicações periódicas</option>
+
+			</select>
+		</fieldset>
+        
+        </div>
+	</div>
+
+	<div data-role="footer" data-position="fixed" class="footer-docs" data-theme="a">
+		<p>&copy; 2013 PCCRBE</p>
+	</div>	
+	
+	<div data-role="header" class="headerGrid ui-grid-b" id="resultHeader" data-theme="a" data-position="fixed"><!-- resultados -->
+	     <div class="ui-block-a ui-bar-a" >
+           <div align="left" style="padding-left:5px;padding-top:3px;height:32px;">
+                <a href="javascript:hideResultado()" class="ui-btn-left" rel="external" data-mini="true" data-role="button" data-icon="back" data-theme="a" data-iconpos="notext"></a>
+            </div> 
+        </div>
+        <div class="ui-block-b ui-bar-a" data-theme="b">
+            <div align="center" style="text-align:center;">
+            <div style="padding-top:10px;height:32px;" data-theme="b">
+                <article data-role="header">SIBEL - Resultados</article>
+            </div>
+            </div>
+        </div>
+        <div class="ui-block-c ui-bar-a"> 
+            <div align="right" style="padding-top:7px;height:32px;">             
+                <a class="ui-btn-right" id="prefsSearch" href="javascript:showPrefs(1)" data-icon="gear" data-role="button"  data-iconpos="notext"></a>     
+            </div>
+        </div>
+		
+		
+	</div>
+	
+	<div data-role="content" id="resultado">
+		<ul data-role="listview" data-inset="true" data-split-theme="d"  id="currentBooks"></ul>
+		
+	</div>
+	        
+     <div data-role="header" class="headerGrid ui-grid-b" id="prefsHeader" data-theme="a" data-position="fixed" >
+        <div class="ui-block-a ui-bar-a" >
+            <div align="left"  style="padding-left:5px;height:32px;">
+                <a href="javascript:hidePrefs()" class="ui-btn-left" rel="external" data-mini="true" data-role="button" data-icon="back" data-theme="a" data-iconpos="notext"></a>    
+            </div>
+        </div>
+        <div class="ui-block-b ui-bar-a" data-theme="b">
+            <div align="center" style="text-align:center;">
+            <div style="padding-top:10px;height:32px;" data-theme="b">
+                <article data-role="header">SIBEL - Preferências</article>
+            </div>
+            </div>
+        </div>
+        <div class="ui-block-c ui-bar-a"> 
+            <div style="padding-top:7px;height:32px;">       
+            </div>
+        </div>
+    
+     </div>     
+               
+		
+	
+	<div data-role="content" id="siteslist">
+		 <label for="urlRede">Endereço de rede</label>
+		      <select name="urlRede" id="urlRede"  tabindex="-1" data-theme="b" data-native-menu="false" data-overlay-theme="d">
+				<option value="redebibliotecas.cm-paredes.pt/rbpar/">Bibliotecas de Paredes</option>
+				<option value="redebibliotecas.cm-paredes.pt/rbpar/">Bibliotecas de Arganil</option>
+				<option value="redebibliotecas.cm-paredes.pt/rbpar/">Bibliotecas de Aljustrel</option>
+				<option value="redebibliotecas.cm-paredes.pt/rbpar/">Bibliotecas de Bragança</option>
+			</select>
+			
+	</div>
+			
+ 	<div data-role="content" id="buttonCheck">
+ 		<form>	
+ 		     <p>Visualização de exemplares</p>
+		<input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom" data-iconpos="right" checked='checked' />
+		<label for="checkbox-1">Activada</label>
+   		</form>
+	</div>
+					
+	<div data-role ="content" id="prefsOptions" >
+           <fieldset data-role="controlgroup"  data-type="horizontal" > 
+           		<legend>Número de resultados por página:</legend>
+                <input id="rpg1" name="rpg"  type="radio" value="5" checked="checked"/>
+                <label for="rpg1">&nbsp;5&nbsp;</label>
+                <input id="rpg2" name="rpg" type="radio" value="10"/>
+                <label for="rpg2">&nbsp;10&nbsp;</label>
+                <input id="rpg3" name="rpg" type="radio" value="15"/>
+                <label for="rpg3">&nbsp;15</label>
+                <input id="rpg4" name="rpg" type="radio" value="20"/>      
+                <label for="rpg4">&nbsp;20</label>           
+                <input id="rpg5" name="rpg" type="radio" value="30"/>      
+                <label for="rpg5">&nbsp;30</label> 
+                <input id="rpg6" name="rpg" type="radio" value="50"/>      
+                <label for="rpg6">&nbsp;50</label> 
+                <input id="rpg7" name="rpg" type="radio" value="100"/>      
+                <label for="rpg7">&nbsp;100</label>             
+          </fieldset>     
+	</div><!-- fim preferências -->
+	
+	
+	<div data-role="header" class="headerGrid ui-grid-b" id="bookHeader" data-theme="a" data-position="fixed">
+        <div class="ui-block-a ui-bar-a" >
+           <div align="left" style="padding-left:5px;padding-top:3px;height:32px;">
+                <a href="javascript:hideBook()" class="ui-btn-left" rel="external" data-mini="true" data-role="button" data-icon="back" data-theme="a" data-iconpos="notext"></a>
+            </div> 
+        </div>
+        <div class="ui-block-b ui-bar-a" data-theme="b">
+            <div align="center" style="text-align:center;">
+            <div style="padding-top:10px;height:32px;" data-theme="b">
+                <article data-role="header">SIBEL - Detalhes</article>
+            </div>
+            </div>
+        </div>
+        <div class="ui-block-c ui-bar-a"> 
+            <div align="right" style="padding-top:7px;height:32px;">             
+                <a class="ui-btn-right" id="prefsSearch" href="javascript:showPrefs(0)" data-icon="gear" data-role="button"  data-iconpos="notext"></a>     
+            </div>
+        </div>
+     </div>     
+	<div data-role="content" id="displayBook">
+	<div class="ui-grid-a" id="book_data">	
+	    <span style="float:right" id="btdoc"></span><h2 id="btitle"></h2>
+		<div class="ui-block-a">
+		<p><strong>Autor: </strong><span id="bautor"></span></p>
+		<p><span id="bpubli"></span> </p>
+		<p><span id="bcol"></span> </p>
+		<p><span id="bcode"></span> </p>	
+		</div>		
+		<div class="ui-block-b" align="right" >
+		    <img src="" id="capa">
+		</div>
+	</div><!-- /grid-a -->
+	<div id="star"></div><br />
+	<hr/>
+	
+    <div data-role="collapsible-set" data-theme="c" data-content-theme="d" id="currentExpls">  
+          
+	</div>	
+	
+	
+    <script>
+    $(function() {
+      $.fn.raty.defaults.path = 'js/img';
+
+      $('#star').raty();
+    });
+    </script>
+	</div>
+    <div data-role="header" class="headerGrid ui-grid-b" id="loginHeader" data-theme="a" data-position="fixed">
+        <div class="ui-block-a ui-bar-a" >
+           <div align="left" style="padding-left:5px;padding-top:3px;height:32px;">
+                <a href="javascript:hideBook()" class="ui-btn-left" rel="external" data-mini="true" data-role="button" data-icon="back" data-theme="a" data-iconpos="notext"></a>
+            </div> 
+        </div>
+        <div class="ui-block-b ui-bar-a" data-theme="b">
+            <div align="center" style="text-align:center;">
+            <div style="padding-top:10px;height:32px;" data-theme="b">
+                <article data-role="header">SIBEL - Login</article>
+            </div>
+            </div>
+        </div>
+        <div class="ui-block-c ui-bar-a"> 
+            <div align="right" style="padding-top:7px;height:32px;">             
+                <a class="ui-btn-right" id="prefsSearch" href="javascript:showPrefs(0)" data-icon="gear" data-role="button"  data-iconpos="notext"></a>     
+            </div>
+        </div>
+     </div> 
+	 
+	 <div data-role="content" id="displayLogin">
+		<form action="javascript:chkLogin()" method="post">
+            <div data-role="fieldcontain">
+             <label for="username">Nome:</label>
+             <input type="text" name="username" id="username" />
+            </div>    
+
+            <div data-role="fieldcontain">
+             <label for="password">Senha:</label>
+             <input type="password" name="password" id="password" />
+            </div>    
+            <input type="submit" name="login" value="Entrar" />
+        </form>
+		<div id="msglogin"></div>
+     </div>
+        
+
+	<script>
+	
+	  $.support.cors = true;
+	  $.mobile.allowCrossDomainPages =true;
+	  
+	  var ID = 'id';
+	  var BOOK = 'book';
+	  var TITLE = 'title';
+	  var AUTHOR = 'author';
+	  var DESCR = 'description';
+	  var USER ='user'; 
+	  var GET = 'GET';
+	  var XML = 'xml';
+	  var HTTP = 'http://';
+	  var HTML_FRG1 = '<li id="';
+	  var HTML_FRG2 = '"><a href="#"  data-transition="slidedown" id="';
+	  var HTML_FRG3 = '"/>';
+	  var HTML_FRG8 = '<hr></hr></li>';	  
+	 
+	  // Variables
+
+	  var contentResult = $('#resultado');
+	  var contentSearch = $('#divSearch');
+	  var contentFooter = $('.footer-docs');
+	  var headerMain = $('#mainHeader');
+	  var headerResult = $('#resultHeader');
+	  var headerPrefs =$('#prefsHeader');
+	  var pageBook =$('#displayBook');
+	  var headerBook =$('#bookHeader');
+	  var listSites =$('#siteslist');
+	  var checkPrefs =$('#buttonCheck');
+	  var optionsPrefs =$('#prefsOptions');
+	  var currentBooks = $('#currentBooks');
+	  var headerMap = $('#mapHeader');
+	  var contentMap = $('#map_content');
+	  var headerLogin = $('#loginHeader');
+	  var contentLogin = $('#displayLogin');
+	  
+	  var tipodoc = $('#tipodoc');
+	  var numRegs= 0;
+	  var prev;
+	
+	  
+	$(document).ready(function () { 
+	var pagedest=getParameterByName('task');
+	if (pagedest=='detalhes')
+	{
+	   var bid=getParameterByName('bid');
+	   getSingleBook(bid)
+	}else {   
+	   prev=0;  
+	   hidePrefs();
+     }
+     });       
+	
+	function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+	
+	
+    function getBooks() {
+       showResultado();
+       $('ul#currentBooks li').remove();
+       var q= $('#searchinput').val()==''? '$': $.trim($('#searchinput').val().toUpperCase())+'$';
+       var t= tipodoc.val()=='XX'? '': escape(' AND TDOC '+tipodoc.val());
+       var op = $('input[name=op]').filter(':checked').val();
+	   var o = (op=='PAL'? '':escape(op+' '));
+       q = o+q+t;
+       var r =  $('input[name=rpg]').filter(':checked').val();
+       varURI = HTTP+ $('#urlRede').val() + 'bridge.php?q='+q+'&r='+r;
+       //alert(varURI);
+	   $.ajax({type: GET,dataType: XML, url: varURI, success: populateBooksList, cache: false, error: function (xhr, ajaxOptions, thrownError) { alert(xhr.status);alert(thrownError);}});
+    }
+    
+    function getSingleBook(bid) {
+       showResultado();
+       $('#currentExpls').html('');	
+       varURI = HTTP+ $('#urlRede').val() + 'bridge.php?q='+escape(bid)+'&r=1';
+       //alert(varURI);
+	   $.ajax({type: GET,dataType: XML, url: varURI, success: showBook, cache: false, error: function (xhr, ajaxOptions, thrownError) { alert(xhr.status);alert(thrownError);}});
+    }
+       
+    
+	function chkLogin() {
+       
+	   var u=  $('#username').val();
+       var s = $('#password').val();
+       varURI = HTTP+ $('#urlRede').val() + 'bridge.php?task=lg&u='+u;
+	   $.ajax({type: GET,dataType: XML, url: varURI, success: popMsg, cache: false, error: function (xhr, ajaxOptions, thrownError) { alert(xhr.status);alert(thrownError);}});
+    }
+	
+    function hideResultado()
+    {
+      
+      headerResult.hide();
+      contentResult.hide();
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      pageBook.hide();
+      headerBook.hide();
+	  headerLogin.hide();
+	  contentLogin.hide();
+      headerMain.show();
+      contentSearch.show();
+      contentFooter.show();
+      
+    }
+    
+    function showResultado()
+    {
+      headerMain.hide();
+      contentSearch.hide();
+      contentFooter.hide();
+      pageBook.hide();
+      headerBook.hide();
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+	   headerLogin.hide();
+	  contentLogin.hide();
+      headerResult.show();
+      contentResult.show();
+      
+    }
+	
+	function showLogin()
+    {
+      headerMain.hide();
+      contentSearch.hide();
+      contentFooter.hide();
+      pageBook.hide();
+      headerBook.hide();
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      headerResult.hide();
+      contentResult.hide();
+	  headerLogin.show();
+	  contentLogin.show();
+      
+    }
+	
+	function hideLogin()
+    {
+      headerMain.hide();
+      contentSearch.hide();
+      contentFooter.hide();
+      
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      headerResult.hide();
+      contentResult.hide();
+	  headerLogin.hide();
+	  contentLogin.hide();
+      headerBook.show();
+	  pageBook.show();
+    }
+    
+     function showPrefs(n)
+    {
+     prev=n;
+     if (n==0) {
+       
+      headerMain.hide();    
+      contentSearch.hide();
+      contentFooter.hide();
+      headerResult.hide();
+      contentResult.hide();
+      pageBook.hide();
+      headerBook.hide();
+      pageBook.hide();
+	  headerLogin.hide();
+	  contentLogin.hide();
+      headerPrefs.show();
+      listSites.show();
+      checkPrefs.show();
+      optionsPrefs.show();
+      }else {
+      headerMain.hide();    
+      contentSearch.hide();
+      contentFooter.hide();
+      headerResult.hide();
+      contentResult.hide();
+      pageBook.hide();
+	   headerLogin.hide();
+	  contentLogin.hide();
+      headerBook.hide();
+      headerPrefs.show();
+      listSites.show();
+      checkPrefs.show();
+      optionsPrefs.show();
+      }
+    }
+    
+     function hidePrefs()
+    {
+     if (prev==0)
+     {
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      pageBook.hide();
+      headerBook.hide();
+      headerResult.hide();
+      contentResult.hide();
+	   headerLogin.hide();
+	  contentLogin.hide();
+      headerMain.show();
+      contentSearch.show();
+      contentFooter.show();
+
+     }else {
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      pageBook.hide();
+      headerBook.hide();
+      headerMain.hide();
+	  headerLogin.hide();
+	  contentLogin.hide();
+      contentSearch.hide();
+      contentFooter.hide();
+      headerResult.show();
+      contentResult.show();
+
+      
+     }
+    }
+     
+     function hideBook()
+    {
+      contentSearch.hide();
+      contentFooter.hide();
+      headerPrefs.hide();
+      listSites.hide();
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      pageBook.hide();
+      headerBook.hide();
+      headerMain.hide();
+	  headerLogin.hide();
+	  contentLogin.hide();
+      headerResult.show();
+      contentResult.show();
+      
+    }
+	
+    
+    
+    function populateBooksList(xml){
+      var i=0;
+      
+      $(xml).find(BOOK).each(function(){
+          var bid=  $(this).filter(':first').attr('id');
+          var txt = $(this).find(TITLE).text();
+          var aut = $(this).find(AUTHOR).text();
+          var tdoc = $(this).find('type').text();
+     	  $(HTML_FRG1 + 'list_'+ bid  +HTML_FRG2 + bid+ HTML_FRG3 +'<p>'+(++i)+'-'+tdoc+'</p>'+ '<b>Título</b>: '+ txt + '<br><b>Autor</b>: '+aut+'</a>'+ HTML_FRG8).appendTo(currentBooks);
+          //alert(HTML_FRG1 + 'list_'+ bid  +HTML_FRG2 + bid+ HTML_FRG3 +'<p>'+(++i)+'-'+tdoc+'</p>'+ '<b>Título</b>: '+ txt + '<br><b>Autor</b>: '+aut+'</a>'+ HTML_FRG8);                     
+          var newDescItem = document.getElementById('list_'+bid);      
+	      $(newDescItem).click(function() {
+		  	//showProgress();
+	        getSingleBook(bid);  
+	      });
+      
+      });
+      if (i==0) 
+       $('<li>Não foram encontrados registos...</li>').appendTo(currentBooks);  
+    }
+    
+    function popMsg(xml){
+ 
+      $(xml).find(USER).each(function(){
+          var uid=  $(this).filter(':first').attr('id');
+          var code = $(this).find('code').text();
+          var nres = $(this).find('nres').text();
+          var bib = $(this).find('bib').text();
+		  if (code==$('#password').val())
+		  {
+		     $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h2>Parabéns, a sua reserva foi efetuada!.</h2></div>").css({ "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 250, left:20 })  .appendTo(  $.mobile.pageContainer )  .delay( 4500 )  .fadeOut( 400, function(){    $(this).remove();  });
+		  }
+     	  hideLogin();  
+      });
+     
+    }
+	
+    function showBook(xml){
+
+      $('#capa').attr('src','');
+      
+      headerResult.hide();
+      headerPrefs.hide();
+      listSites.hide();
+      headerMain.hide();
+      headerBook.show();
+      pageBook.show();
+     
+      var bid;
+      $(xml).find(BOOK).each(function(){
+          bid=  $(this).filter(':first').attr('id');
+          var txt = $(this).find(TITLE).text();
+          var aut = $(this).find(AUTHOR).text();
+          var tdoc = $(this).find('type').text();
+          var pub = $(this).find('publi').text();
+          var isn = $(this).find('code').text();
+     	  //$(HTML_FRG1 + 'book_'+ bid  +HTML_FRG2 + bid+ HTML_FRG3 +  '<b>Título</b>: '+ txt + '<br><b>Autor</b>: '+aut+'</a>'+HTML_FRG8).appendTo(currentBooks);
+     	  $('#btitle').html(txt);
+     	  $('#bautor').html(aut);
+     	  $('#bpubli').html(pub);
+     	  $('#bcode').html(isn);
+          $('#btdoc').html(tdoc);
+          if (isn)
+          {
+			   
+			  isn = isn.replace(/-/g,'');
+			  var img = new Image();
+			  url ="http://www.biblioteca.cm-feira.pt:8080/hipres/Imagens/livros/p"+isn.substring(0,13)+".jpg";
+			  img.src = url;
+			  $('#capa').attr('src',url);
+			  $('#capa').show(); 			  
+			  img.onerror = function (evt) {
+	                $('#capa').hide(); 
+	  		  }
+     	  } 
+     	  
+      });
+       var arrex = new Array();
+       $(xml).find('exemplar').each(function(){
+          arrex[0] =  $(this).attr('id');
+          arrex[1] =  $(this).attr('nreg');
+          arrex[2] =  $(this).attr('cota');
+          arrex[3] =  $(this).attr('sigla');
+          arrex[4] =  $(this).attr('agrup');
+          arrex[5] =  $(this).attr('entidade');
+          arrex[6]=   $(this).attr('morada');
+          arrex[7] =  $(this).attr('concelho');
+          arrex[8] =  $(this).attr('telef');
+          arrex[9]=   $(this).attr('fax');
+          arrex[10]=   $(this).attr('lat');
+          arrex[11]=   $(this).attr('long');
+          
+          $('<div data-role="collapsible" data-collapsed="true" id="'+arrex[0]+'"><h3>'+arrex[5]+'</h3><table class="user"><tr><td>&nbsp;'+arrex[6]+'</td><td>&nbsp;'+arrex[7]+'</td><td width="50"><a rel="external" href="gmap.html?id='+bid+'&lt='+arrex[10].replace(',','.')+'&lg='+arrex[11].replace(',','.')+'" data-ajax="false"><img src="img/maps.png" width="48" height="48"></a></td><td  width="50"><a href="tel:'+arrex[8]+'"  ><img src="img/phone.png" width="48" height="48"></a>	</td></tr></table><table class="user"<tr><th>Nº reg.</th><th>Cota</th><th>Agrup.</th><th>&nbsp</th><tr><td>&nbsp;'+arrex[1]+'</td><td>&nbsp;'+arrex[2]+'</td><td>&nbsp;'+arrex[4]+'</td><td align="center"><input type="button"  value="Reservar" data-mini="true" onclick="showLogin()"></td></tr></table></div>').appendTo(currentExpls);
+
+		  $('#currentExpls').collapsibleset("refresh");  
+	   
+
+      });
+      
+      checkPrefs.hide();
+      optionsPrefs.hide();
+      contentResult.hide();
+      contentSearch.hide();
+      contentFooter.hide();
+    }
+   
+   
+	</script>
+  </div>
+  
+ 
+</body>	
+	
+	    	
+</html>

@@ -1,0 +1,92 @@
+<!-- Copyright (c) 2012 Mobile Developer Solutions -->
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="Content-type" name="viewport" content="initial-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <title>Sibel</title>
+
+ 	<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.1.0.min.css" />
+	<link rel="stylesheet" href="index.css" /> 
+
+    <script src="jquery.mobile/jquery-1.7.2.min"></script>
+	<script src="jquery.mobile/jquery.mobile-1.1.0.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+	<script type="text/javascript" charset="utf-8" src="index.js"></script>
+    
+
+</head>
+<body>
+
+<!-- Container page -->
+<div data-role="page" data-theme="b" id="containerPage">
+
+	<div data-role="header" data-nobackbtn="true">
+		<h1>Resultados</h1>
+	</div>
+	
+	<div data-role="content" id="resultado">
+		
+		
+		
+	</div>
+	
+	<div data-role="footer" ></div>
+	<script>
+	
+	
+	  var COMMA = ',';
+	  var EMPTY = '';
+	  var REFRESH = 'refresh';
+	  var LI = 'li';
+	  var PAR = 'p';
+	  var ID = 'id';
+	  var ITEM = 'item';
+	  var TITLE = 'title';
+	  var DESCR = 'description';
+	  var CAT_ = 'cat_';
+	  var _D = '_d';
+	  var _LI = '_li';
+	  var _A = '_a';
+	  var GET = 'GET';
+	  var XML = 'xml';
+	  var HTML_FRG1 = '<li id="';
+	  var HTML_FRG2 = '"><h3><a id="';
+	  var HTML_FRG3 = '"  href="#">';
+	  var HTML_FRG4 = '</a></h3><p id="';
+	  var HTML_FRG5 = '"></p><a href="#" data-transition="slideup" id="';
+	  var HTML_FRG6 = '"/></li>';
+	  var HTML_FRG7 = '<p>';
+	  var HTML_FRG8 = '</p><hr></hr>';	  
+	  var NEWS_URI = 'http://news.yahoo.com/rss/';
+	  var TWO_SECONDS = 2000;
+
+	  // Variables
+
+	  var contentNewsVar = $('#resultado');
+	 
+	  
+	$(document).ready(function () {    
+       var varURI = NEWS_URI + 'topstories';
+	   $.ajax({type: GET, dataType: XML, url: varURI, success: populateNewsItems});
+     });       
+	
+   
+    function populateNewsItems(xml){
+      var tmpTxt = EMPTY;
+      
+      $(xml).find(ITEM).each(function(){
+          var txt = $(this).find(DESCR).text();
+          tmpTxt = tmpTxt + HTML_FRG7 + txt + HTML_FRG8;                   
+      }); 
+      
+      contentNewsVar.html(tmpTxt);
+     
+    }
+    
+    
+   
+  
+	</script>
+</div>	
+</body>		    	
+</html>
